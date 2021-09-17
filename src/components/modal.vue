@@ -34,9 +34,9 @@
             
             <label class="block mb-1 text-sm font-bold text-left text-gray-700 mt-7" for="phone">Address</label>
             <input class="px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" v-model="user.address" id="address" type="text" placeholder="Address">
-            
+                        
             <label class="block mb-1 text-sm font-bold text-left text-gray-700 mt-7" for="phone">Country</label>
-            <country-select class="w-full px-3 py-2 border rounded shadow" v-model="user.country" :country="user.country" countryName="true" topCountry="US" />
+            <drop-down :options="countries" @show-option="showselected" class="w-full px-3 py-2 border rounded shadow"/> 
             </div>
         </div>
 
@@ -54,6 +54,7 @@
 import Vue from 'vue'
 import vueCountryRegionSelect from 'vue-country-region-select'
 Vue.use(vueCountryRegionSelect)
+import DropDown from './DropDown.vue'
 
 
 export default {
@@ -61,6 +62,7 @@ export default {
   props: {
     isVisible: Boolean
   },
+  
   data:function() {
       return{
         errors: [],
@@ -70,11 +72,26 @@ export default {
             phone: '',
             address: '',
             country: ''
-        }
+        },
+        countries :[
+          {
+            id: 1,
+            title: 'Pakistan'
+          },
+          {
+             id: 2,
+             title: 'USA'
+          },
+          {
+            id: 3,
+            title: 'France'
+          }
+        ]
       }
   },
   components: {
-       "vue-country-select": require("vue-country-select")
+       "vue-country-select": require("vue-country-select"),
+       DropDown
   },
   methods: {
       emitCancel() {
@@ -120,14 +137,15 @@ export default {
       this.$emit('confirm',this.user);
       }
     },
-    
+    showselected: function(value){
+      console.log(value);
+      this.user.country=value.title;
+    },
     validEmail: function (email) {
-        
       var re = /^[\w]+@([\w-]+\.)+[\w-]{2,4}$/;
       return re.test(email);
     },
     validPhone: function (phone) {
-        
       var re = /^\(?([0-9]{4})\)?[-. ]?([0-9]{7})$/;
       return re.test(phone);
     }
