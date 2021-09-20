@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <h1>New branch</h1>
+    <h2>New commit</h2>
     <h1 class="text-4xl font-bold">User Data</h1>
     <button class="px-4 py-2 mt-10 font-bold text-white bg-blue-500 rounded hover:bg-blue-700" @click="visible=true">Add User</button>
     <modal :isVisible="visible"  @cancel="visible = false" @confirm="saveUser"></modal>
